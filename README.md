@@ -9,3 +9,9 @@ role setup-ssh
 
 role test-ssh 
 1.does a simple ssh connection test from container-1 to container-2
+
+Vagrant setup
+Run vagrant up with the Vagrantfile
+Install ansible in vagrant box
+
+Note: /vagrant/docker/keys/ is a location in vagrant host to hold user provided ssh keys
