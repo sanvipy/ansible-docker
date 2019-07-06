@@ -1,0 +1,9 @@
+---
+- hosts: localhost
+  tasks:
+    - docker_container:
+        name: container-1
+        state: absent
+    - docker_container:
+        name: container-2
+        state: absent        

@@ -1,0 +1,46 @@
+---
+
+- name: Copy the key to authorized_keys
+  tags: run
+  authorized_key:
+    user: root
+    state: present
+    key: "{{ lookup('file','{{ PUBLIC_KEY_FILE }}')}}"
+                 
+          
+- name: Disable Password Authentication
+  lineinfile:
+    dest=/etc/ssh/sshd_config
+    regexp='^PasswordAuthentication'
+    line="PasswordAuthentication no"
+    state=present
+    backup=yes
+           
+- name: PermitRootLogin
+  lineinfile:
+    dest=/etc/ssh/sshd_config
+    regexp='^PermitRootLogin'
+    line="PermitRootLogin yes"
+    state=present
+    backup=yes
+    
+- name: Change permissions of .ssh
+  file:
+    path: ~/.ssh/
+    owner: root
+    group: root
+    mode: '0700' 
+
+- name: Change permissions of authorized_keys
+  file:
+    path: ~/.ssh/authorized_keys
+    owner: root
+    group: root
+    mode: '0600'      
+
+- name: Restart ssh
+  shell: sleep 3; systemctl restart sshd
+  async: 1
+  poll: 0 
+  
+   

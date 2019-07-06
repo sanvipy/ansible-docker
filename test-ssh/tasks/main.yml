@@ -1,0 +1,12 @@
+--- 
+- name: Test for ssh access
+  become: yes
+  become_user: docker_root
+   
+  command: ssh root@{{ C2_IP }} "echo success"
+  register: ssh_access
+  
+- debug:
+    msg: "SSH established!!"
+  when: ssh_access.stdout.find("success") != -1
+ 

@@ -1,0 +1,17 @@
+---
+# tasks file for docker-role
+
+- name: Install modules
+  include: installer.yml
+  
+- name: create docker_root user
+  include: create_user.yml
+  when: inventory_hostname == "container-1"
+  
+- name: generate ssh keys
+  include: gen_keys.yml
+  when: inventory_hostname == "container-1"
+  
+- name: Deploy ssh keys
+  include: deploy_ssh.yml  
+  when: inventory_hostname == "container-2"

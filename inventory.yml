@@ -1,0 +1,6 @@
+all:
+  hosts:
+    container-1:
+      ansible_connection: docker
+    container-2:
+      ansible_connection: docker

@@ -1,0 +1,11 @@
+---
+
+- name: Create new user
+  user:
+    name: docker_root   
+    shell: /bin/bash    
+    
+- name: Add user to the sudoers
+  copy:
+    dest: "/etc/sudoers.d/docker_root"
+    content: "docker_root  ALL=(ALL)  NOPASSWD: ALL"    

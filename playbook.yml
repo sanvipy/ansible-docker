@@ -1,0 +1,25 @@
+---
+- hosts: localhost
+  tasks: 
+    - name: Start 2 containers
+      docker_container:
+        name: "container-{{ item }}"
+        image: rastasheep/ubuntu-sshd
+      with_sequence: count=2  
+      
+      
+- name: Setup container-1
+  hosts: container-1
+  roles:
+    - name: "setup-ssh"   
+    
+- name: Setup container-2
+  hosts: container-2
+  roles:
+    - name: "setup-ssh"    
+    
+- name: test ssh-access
+  hosts: container-1
+  roles:
+    - name: "test-ssh"  
+    

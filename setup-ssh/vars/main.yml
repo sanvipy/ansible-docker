@@ -1,0 +1,3 @@
+---
+PUBLIC_KEY_FILE: '/vagrant/docker/keys/id_rsa.pub'
+USER_KEY_FILE: '/vagrant/docker/keys/custom-id_rsa.pub'
