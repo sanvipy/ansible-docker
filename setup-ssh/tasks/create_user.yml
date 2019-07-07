@@ -3,6 +3,8 @@
 - name: Create new user
   user:
     name: docker_root   
+    system: yes
+    group: root
     shell: /bin/bash    
     
 - name: Add user to the sudoers

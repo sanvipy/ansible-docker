@@ -15,12 +15,51 @@
     dest: "{{ PUBLIC_KEY_FILE }}"
     flat: yes    
     
-- name: add to authorized_keys
+- name: add custom key to authorized_keys
   tags: run
   authorized_key:
     user: docker_root
     state: present
     key: "{{ lookup('file','{{ USER_KEY_FILE }}')}}"
+    
+- name: Disable Password Authentication
+  lineinfile:
+    dest=/etc/ssh/sshd_config
+    regexp='^PasswordAuthentication'
+    line="PasswordAuthentication no"
+    state=present
+    backup=yes
+           
+- name: PermitRootLogin
+  lineinfile:
+    dest=/etc/ssh/sshd_config
+    regexp='^PermitRootLogin'
+    line="PermitRootLogin yes"
+    state=present
+    backup=yes
+    
+- name: Change permissions of .ssh
+  become: yes
+  become_user: docker_root
+  file:
+    path: ~/.ssh
+    owner: docker_root
+    group: root
+    mode: '0700' 
+
+- name: Change permissions of authorized_keys
+  become: yes
+  become_user: docker_root
+  file:
+    path: ~/.ssh/authorized_keys
+    owner: docker_root
+    group: root
+    mode: '0644'      
+
+- name: Restart ssh
+  shell: sleep 3; systemctl restart sshd
+  async: 1
+  poll: 0     
       
 - name: Disable StrictHostKeyChecking
   become: yes
