@@ -24,4 +24,5 @@ role test-ssh
 
 Run
 Provision containers - ansible-playbook -i inventory.yml playbook.yml
+
 Destroy containers- ansible-playbook destroy.yml
